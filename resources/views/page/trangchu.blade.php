@@ -43,14 +43,18 @@
 							@foreach($new_product as $new)
 							<div class="col-sm-3">
 								<div class="single-item">
-									<div class="single-item-header">
-										<a href="detail/{{$new->id}}"><img width="200" height="200" src="/source/image/product/{{$new->image}}" alt=""></a>
-									</div>
 									@if($new->promotion_price==!0)
 									<div class="ribbon-wrapper">
 										<div class="ribbon sale">Sale</div>
 									</div>
 									@endif
+									<div class="single-item-header">
+										<a href="{{route('chitietsanpham',$new->id)}}"><img width="200" height="200" src="/source/image/product/{{$new->image}}" alt=""></a>
+									</div>
+									{{-- <div class="single-item-header">
+										<a href="detail/{{$new->id}}"><img width="200" height="200" src="/source/image/product/{{$new->image}}" alt=""></a>
+									</div>
+									 --}}
 									<div class="single-item-body">
 										<p class="single-item-title">{{$new->name}}</p>
 										<p class="single-item-price" style="text-align:left;font-size: 15px;">

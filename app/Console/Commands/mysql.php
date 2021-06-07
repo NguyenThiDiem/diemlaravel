@@ -12,7 +12,7 @@ class mysql extends Command
      *
      * @var string
      */
-    protected $signature = 'mysql:createdb {db_banhang?}';
+    protected $signature = 'mysql:createdb {name?}';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class mysql extends Command
      */
     public function handle()
     {
-        $schemaName = $this->argument('db_banhang') ?: config("database.connections.mysql.database");
+        $schemaName = $this->argument('name') ?: config("database.connections.mysql.database");
         $charset = config("database.connections.mysql.charset",'utf8mb4');
         $collation = config("database.connections.mysql.collation",'utf8mb4_unicode_ci');
 
