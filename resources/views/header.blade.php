@@ -123,23 +123,14 @@
                         </ul>
                     </li>
                     <li><a href="#">Pages</a>
-                        <ul class="sub-menu">
-                            <!-- <li><a href="product_type.html">Sản phẩm 1</a></li>
-                            <li><a href="product_type.html">Sản phẩm 2</a></li>
-                            <li><a href="product_type.html">Sản phẩm 3</a></li>
-                            <li><a href="product_type.html">Sản phẩm 4</a></li>
-                            <li><a href="product_type.html">Sản phẩm 5</a></li>
-                            <li><a href="product_type.html">Sản phẩm 6</a></li>
-                            <li><a href="product_type.html">Sản phẩm 7</a></li>
-                            <li><a href="product_type.html">Sản phẩm 8</a></li> -->
+                        <ul class="sub-menu">  
                             @foreach($loai_sp as $loai)
-                                <li><a href="{{route('loaisanpham')}}">{{$loai->name}}</a></i>
+                                <li><a href="loaisanpham/{{$loai->id}}">{{$loai->name}}</a></i>
                             @endforeach;
-                            
                         </ul>
                     </li>
-                    <li><a href="{{route('about')}}">Giới thiệu</a></li>
-                    <li><a href="{{route('lienhe')}}">Liên hệ</a></li>
+                    <li><a href="about">Giới thiệu</a></li>
+                    <li><a href="lienhe">Liên hệ</a></li>
                     <li><a href="#">Portfolio</a>
                         <ul class="sub-menu">
                             <li><a href="portfolio_type_a.html">Portfolio type A</a></li>

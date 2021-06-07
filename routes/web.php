@@ -70,11 +70,11 @@ Route::get('index',[
     'as'=>'trang-chu',
     'uses' =>'App\Http\Controllers\PageController@getIndex'
 ]);
-Route::get('loai-san-pham',[
+Route::get('loaisanpham/{type}',[
     'as'=>'loaisanpham',
     'uses' =>'App\Http\Controllers\PageController@getLoaiSp'
 ]);
-Route::get('chi-tiet-san-pham',[
+Route::get('chitietsanpham',[
     'as'=>'chitietsanpham',
     'uses' =>'App\Http\Controllers\PageController@getChitiet'
 ]);
