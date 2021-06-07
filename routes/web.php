@@ -101,3 +101,19 @@ Route::get('chi-tiet-san-pham/{id}',[
     'as'=>'chitietsanpham',
     'uses' =>'App\Http\Controllers\PageController@getChitiet'
 ]);
+Route::get('admin',
+        [    'as'=>'index-admin',
+            'uses'=>'PageController@getIndexAdmin'
+         ] );
+Route::get('admin-add-form',
+    [
+        'as'=>'getadminadd',
+        'uses'=>'PageController@getAdminAdd'
+    ]
+    );
+    Route::post('admin-add',
+    [
+        'as'=>'adminadd',
+        'uses'=>'PageController@postAdminAdd'
+    ]
+    );
