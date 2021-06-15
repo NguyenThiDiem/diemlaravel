@@ -66,31 +66,28 @@ Route::get('/',function(){
     return view('welcome');
 });
     
-Route::get('index',[
-    'as'=>'trang-chu',
-    'uses' =>'App\Http\Controllers\PageController@getIndex'
-]);
-Route::get('loaisanpham/{type}',[
+
+Route::get('loai-san-pham/{type}',[
     'as'=>'loaisanpham',
     'uses' =>'App\Http\Controllers\PageController@getLoaiSp'
 ]);
-Route::get('chitietsanpham',[
+Route::get('chi-tiet-san-pham/{id}',[
     'as'=>'chitietsanpham',
     'uses' =>'App\Http\Controllers\PageController@getChitiet'
 ]);
 
 
 Route::get('index',[
-    'as'=>'trangchu',
+    'as'=>'trang-chu',
     'uses' =>'App\Http\Controllers\PageController@getIndex'
 ]);
 Route::get('gioi_thieu',[
     'as'=>'about',
-    'uses'=>'PageController@getAbout'
+    'uses'=>'App\Http\Controllers\PageController@getAbout'
 ]);
 Route::get('lien_he',[
     'as'=>'lienhe',
-    'uses'=>'PageController@getLienhe'
+    'uses'=>'App\Http\Controllers\PageController@getLienhe'
 ]);
 
 Route::get('loai-san-pham/{type}',[
@@ -101,42 +98,69 @@ Route::get('chi-tiet-san-pham/{id}',[
     'as'=>'chitietsanpham',
     'uses' =>'App\Http\Controllers\PageController@getChitiet'
 ]);
+
+//---------------Admin-----------------
 Route::get('admin',
         [    'as'=>'index-admin',
-            'uses'=>'PageController@getIndexAdmin'
+            'uses'=>'App\Http\Controllers\PageController@getIndexAdmin'
          ] );
 Route::get('admin-add-form',
     [
         'as'=>'getadminadd',
-        'uses'=>'PageController@getAdminAdd'
+        'uses'=>'App\Http\Controllers\PageController@getAdminAdd'
     ]
     );
     Route::post('admin-add',
     [
         'as'=>'adminadd',
-        'uses'=>'PageController@postAdminAdd'
+        'uses'=>'App\Http\Controllers\PageController@postAdminAdd'
     ]
     );
     // --------------------------------------
     Route::get('admin-edit-form/{id}',
-        ['as'=>'adminedit',
-            'uses'=>'PageController@getAdminEdit'
+        ['as'=>'getadminedit',
+            'uses'=>'App\Http\Controllers\PageController@getAdminEdit'
         
         ]    
 );
 Route::post('admin-edit',
     [
         'as'=>'adminedit',
-        'uses'=>'PageController@postAdminEdit'
+        'uses'=>'App\Http\Controllers\PageController@postAdminEdit'
     ]
     );
 
     Route::post('admin-delete/{id}',
     [
         'as'=>'admindelete',
-        'uses'=>'PageController@postAdminDelete'
+        'uses'=>'App\Http\Controllers\PageController@postAdminDelete'
     ]
     );
 
+    //------Giỏ hàng-------
+    Route::get('add-to-cart/{id}',[				
+        'as'=>'themgiohang',			
+        'uses'=>'App\Http\Controllers\PageController@getAddtoCart'			
+        ]);		
+        
+        Route::get('del-cart/{id}',
+        [
+            'as'=>'xoagiohang',
+            'uses'=>'App\Http\Controllers\PageController@getDelItemCart'
+        ]
+        );
+
+        //--------------Thanh toán---------
+        Route::get('dat-hang',
+            [
+                'as'=>'dathang',
+                'uses'=>'App\Http\Controllers\PageController@getCheckout'
+            ]);
+       
+            Route::post('dat-hang',
+            [
+                'as'=>'dathang',
+                'uses'=>'App\Http\Controllers\PageController@postCheckout'
+            ]);
     
    

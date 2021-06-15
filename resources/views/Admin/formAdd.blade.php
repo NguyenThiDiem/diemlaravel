@@ -10,7 +10,7 @@
          <h2>THÊM SẢN PHẨM</h2>
 
         <div class="space50">&nbsp;</div>@include ('blocks/error')
-         <form role="form" action="{{('adminadd')}}" method="post" enctype="multipart/form-data">
+         <form role="form" action="{{route('adminadd')}}" method="post" enctype="multipart/form-data">
             @csrf
             <!-- Vertical -->
             <div class="form-group">

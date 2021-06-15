@@ -6,12 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\Slide;
 use App\Models\Product;
 use App\Models\ProductType;
+use App\Models;
+use Session;
+use App\Models\Cart;
+use App\Models\Bill;
+use App\Models\Customer;
+use App\Models\BillDetail;
+
+
 
 class PageController extends Controller
 {
     //
     public function getIndex(){
         $slide = Slide::all();
+        // print_r($slide);
+        // exit;
         $new_product  = Product::where('new', 1)->paginate(4);
         $promotion_product = Product::where('promotion_price', '<>', 0)->paginate(8);
         return view('page.trangchu', compact('slide', 'new_product', 'promotion_product'));
@@ -23,17 +33,21 @@ class PageController extends Controller
         $sp_khac = Product::where('id_type', '<>', $type)->paginate(3);
 
         return view('page.loai_sanpham', compact('sp_theoloai', 'loai_sp', 'sp_khac'));
-    }
-
-    
+    }  
     public function getChitiet(Request $req)
     {
         $sanpham =Product::where('id',$req->id)->first();
-        $sp_tuongtu = Product::where('id_type',$sanpham->id_type)->paginate(3);
+        $sp_tuongtu = Product::where('id_type',$sanpham->id_type)->paginate(6);
         $sp_banchay = Product::where('promotion_price','=',0)->paginate(3);
-        $sp_new = Product::select('id','name','id_type','description','unit_price','promotion_price','image', 'unit', 'new','created_at','updated_at')->where('new','>',0)->orderBy('update_at','ASC')->paginate(3);
+        $sp_new = Product::where('new',1)->paginate(4);
+        //$sp_new = Product::select('id','name','id_type','description','unit_price','promotion_price','image', 'unit', 'new','created_at')->where('new','>',0)->orderBy('update_at','ASC')->paginate(3);
         return view ('page.chitiet_sanpham',compact('sanpham','sp_tuongtu','sp_banchay','sp_new'));
     }
+//---------------------------------------
+
+
+
+//--------------------------------------
 
     public function getLienhe(){
         return view('page.lienhe');
@@ -93,4 +107,76 @@ class PageController extends Controller
         return $this->getIndexAdmin();
     }
 
-}        
+       
+
+//---------------------giỏ hàng------------
+
+
+public function getAddToCart(Request $req, $id){				
+    $product = Product::find($id);				
+    $oldCart = Session('cart')?session()->get('cart'):null;				
+    $cart = new Cart ($oldCart);				
+    $cart->add($product,$id);				
+    $req->session()->put('cart', $cart);				
+    return redirect()->back();				
+}	
+public function getDelItemCart($id){
+    $oldCart = session()->has('cart')?session()->get('cart'):null;
+    $cart = new Cart($oldCart);
+    $cart->removeItem($id);
+    
+    session()->put('cart',$cart);
+    return redirect()->back();
+}		
+//----------------Thanh toán-----------
+
+
+public function getCheckout(){
+    return view('page.dat_hang');
+    
+}
+
+
+
+
+public function postCheckout(Request $req){		
+	
+
+    $cart = session()->get('cart');			
+    dd($cart);						
+    $customer = new Customer;						
+    $customer->name = $req->full_name;						
+    $customer->gender = $req->gender;						
+    $customer->email = $req->email;						
+    $customer->address = $req->address;						
+    $customer->phone_number = $req->phone;						
+    $customer->note = $req->notes;						
+    $customer->save();						
+                    
+    $bill = new Bill;						
+    $bill->id_customer = $customer->id;						
+    $bill->date_order = date('Y-m-d');						
+    $bill->total = $cart->totalPrice;						
+    $bill->payment = $req->payment;						
+    $bill->note = $req->notes;						
+    $bill->save();		
+                    
+    foreach($cart->items as $key=>$value){						
+        $bill_detail = new BillDetail;						
+        $bill_detail->id_bill = $bill->id;						
+        $bill_detail->id_product = $key;//$value['item']['id'];						
+        $bill_detail->quantity = $value['qty'];						
+        $bill_detail->unit_price = $value['price']/$value['qty'];						
+        $bill_detail->save();						
+    }						
+                            
+    session()->forget('cart');						
+    return redirect()->back()->with('thongbao','Đặt hàng thành công');						
+}						
+
+
+
+
+
+
+} 
