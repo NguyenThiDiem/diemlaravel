@@ -117,3 +117,26 @@ Route::get('admin-add-form',
         'uses'=>'PageController@postAdminAdd'
     ]
     );
+    // --------------------------------------
+    Route::get('admin-edit-form/{id}',
+        ['as'=>'adminedit',
+            'uses'=>'PageController@getAdminEdit'
+        
+        ]    
+);
+Route::post('admin-edit',
+    [
+        'as'=>'adminedit',
+        'uses'=>'PageController@postAdminEdit'
+    ]
+    );
+
+    Route::post('admin-delete/{id}',
+    [
+        'as'=>'admindelete',
+        'uses'=>'PageController@postAdminDelete'
+    ]
+    );
+
+    
+   

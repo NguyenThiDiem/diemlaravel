@@ -45,11 +45,7 @@ class PageController extends Controller
         $new_products =Product::all();
         return view('Admin.admin')->with(['products'=>$new_products]);
     }
-    public function postAdminDelete($id){
-        $product = Product::find($id);
-        $product ->delete();
-        return $this->getIndexAdmin();
-    }
+    
 
     // ADD product
     public function getAdminAdd(){
@@ -65,8 +61,36 @@ class PageController extends Controller
     }
 
 
+
     public function getAdminEdit($id){
         $product =Product::find($id);
         return view('Admin.formEdit')->with(['product'=>$product]);
     }
+    public function postAdminEdit(Request $request){
+        $id = $request->id;
+        $product = Product::find($id);
+        $file = $request->file('image');
+        $fileName = $file->getClientOriginalName('image');
+        $file->move('source/image/product',$fileName);
+    
+    if($request->file('image')!=null){
+        $product->image = $fileName;
+     
+        $product->description =$request->description;
+        $product->unit_price = $request->unit_price;
+        $product->promotion_price = $request->promotion;
+        $product->new = $request->new;
+        $product->id_type = $request->type;
+        $product->save();
+        return $this->getIndexAdmin();
+    }
+}
+    // ------------------------DELETE______
+    
+    public function postAdminDelete($id){
+        $product = Product::find($id);
+        $product->delete();
+        return $this->getIndexAdmin();
+    }
+
 }        
